@@ -224,15 +224,18 @@
             else if (me.$$config.enqueue) me.$$queue.push(message);
         };
 
-        me.$emit = function (event, data) {
-            if (typeof event !== 'string') throw new Error('$emit needs two parameter: a String and a Object or a String');
-
-            var message = {
+        // For formatting messages structure
+        me.$$message = function(event, data) {
+            return {
                 event: event,
                 data: data
             };
+        };
 
-            me.$$send(message);
+        me.$emit = function (event, data) {
+            if (typeof event !== 'string') throw new Error('$emit needs two parameter: a String and a Object or a String');
+
+            me.$$send(me.$$message(event, data));
 
             return me;
         };
