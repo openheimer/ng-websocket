@@ -132,7 +132,8 @@
 
             me.$$ws.onmessage = function (message) {
                 try {
-                    var decoded = JSON.parse(message.data);
+                    var decoded = me.$$decode(JSON.parse(message.data));
+
                     me.$$fireEvent(decoded.event, decoded.data);
                     me.$$fireEvent('$message', decoded);
                 }
@@ -229,6 +230,14 @@
             return {
                 event: event,
                 data: data
+            };
+        };
+
+        // For decoding received messages
+        me.$$decode = function(messageObj){
+            return {
+                event: messageObj.event,
+                data: messageObj.data
             };
         };
 
