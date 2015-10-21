@@ -299,6 +299,7 @@
             closeTimeout = cfg.closeTimeout || 1000,
             messageInterval = cfg.messageInterval || 2000,
             fixtures = cfg.fixtures || {},
+            decode = cfg.decode,
             messageQueue = [];
 
         me.CONNECTING = 0;
@@ -338,7 +339,7 @@
         setInterval(function () {
             if (messageQueue.length > 0) {
                 var message = messageQueue.shift(),
-                    msgObj = JSON.parse(message);
+                    msgObj = decode(JSON.parse(message));
 
                 switch (msgObj.event) {
                     case '$close':
